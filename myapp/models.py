@@ -4,6 +4,7 @@ from django.db import models
 class Medicine(models.Model):
 	name = models.CharField(max_length=200)
 	quantity = models.IntegerField(default=0)
+	critical_quantity = models.IntegerField(default=10)
 
 	def __str__(self):
 		return self.name

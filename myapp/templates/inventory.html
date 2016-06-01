@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+	Inventory
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Inventory</h1>
+		<div class="col-md-8 col-md-offset-2">
+			<table class="table table-bordered table-hover">
+				<thead class="thead-inverse">
+					<th>S. No.</th>
+					<th>Medicine Name</th>
+					<th>Quantity</th>
+				</thead>
+				<tbody>
+					{% for m in medicines %}
+						<tr class="clickable-row" data-href="medicine/{{ m.id }}">
+							<td>{{ forloop.counter }}</td>
+							<td>{{ m.name }}</td>
+							<td>{{ m.quantity }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>	
+	</div>
+{% endblock %}

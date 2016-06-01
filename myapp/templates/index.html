@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+	Home
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Actions</h1>
+		<br>
+		<div class="btn-group btn-group-lg btn-group-justified">
+				<a href="add" class="btn btn-primary btn-lg center-block">Add to Stock</a>
+				<a href="issue" class="btn btn-primary btn-lg center-block">Issue Medicine</a>
+				<a href="new_medicine" class="btn btn-primary btn-lg center-block">Add New Medicine</a>
+				<a href="inventory" class="btn btn-primary btn-lg center-block">Inventory</a>
+		</div>
+		<br>
+		<h1 align="center">Notifications</h1>
+		<br>
+		{% if medicines %}
+			{% for name,quantity in medicines %}
+				<div class="alert alert-danger fade in">
+					<!-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> -->
+					<strong>Warning!</strong> {{ name }} is running low. Current quantity: {{ quantity }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<h2 align="center">No notifications for now!</h2>
+		{% endif %}
+	</div>
+{% endblock %}

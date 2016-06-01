@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}
+	Medicine | {{ medicine.name }}
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Medicine: {{ medicine.name }}</h1>
+		<br>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<th>Attribute</th>
+						<th>Value</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>Medicine Name</strong></td>
+							<td>{{ medicine.name }}</td>
+						</tr>
+						<tr>
+							<td><strong>Current Quantity</strong></td>
+							<td>{{ medicine.quantity }}</td>
+						</tr>
+						<tr>
+							<td><strong>Critical Quantity</strong></td>
+							<td>{{ medicine.critical_quantity }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="col-md-5 col-md-offset-7">
+					<a href="change_critical_quantity/{{ medicine.id }}" class="btn btn-primary center-block">Change Critical Quantity</a>
+				</div>
+			</div>
+		</div>
+
+		<h1 align="center">Logs</h2>
+		{% if logs %}
+			<div class="col-md-8 col-md-offset-2">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<th>Date</th>
+					<th>Operation</th>
+					<th>Quantity</th>
+				</thead>
+				<tbody>
+					{% for d,t,q in logs %}
+						<tr>
+							<td>{{ d }}</td>
+							<td>{{ t }}</td>
+							<td>{{ q }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			</div>
+		{% else %}
+			<h2 align="center">No logs for this medicine!</h2>
+		{% endif %}
+	</div>
+{% endblock %}
