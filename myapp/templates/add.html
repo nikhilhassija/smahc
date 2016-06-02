@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+	Add Stock
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Add Medicines to Stock</h1>
+		<br>
+		<div class="col-md-4 col-md-offset-4">
+			<form role="form" action="/add" method="POST">
+				{% csrf_token %}
+				<div class="form-group" id="form-group-1">
+					<label>Medicine:</label>
+					<select class="selectpicker" data-live-search="true" name="medicine1" id="medicine1" enabled>
+						{% for i in medicines %}
+							<option> {{ i.name }} </option>
+						{% endfor %}
+					</select>
+					<br><br>
+					<label>Quantity:</label>
+					<select class="selectpicker" data-live-search="true" name="quantity1" id="quantity1" enabled>
+						{% for i in range %}
+							<option> {{ forloop.counter }} </option>
+						{% endfor %}
+					</select>
+				</div>
+				<input type="hidden" name="max_n" id="max_n" value="2">
+				<input type="hidden" name="str" id="str" value="">
+				<div class="form-group" align="right">
+					<a id="add" class="btn btn-primary">Add Medicine</a>
+					<a href="add" class="btn btn-primary">Reset</a>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

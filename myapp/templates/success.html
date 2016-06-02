@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+	Success
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Success!</h1>
+		{% for i in message %}
+			<div class="alert alert-success fade in">
+				<strong>Success! </strong>{{ i }}
+			</div>	
+		{% endfor %}
+	</div>
+{% endblock %}

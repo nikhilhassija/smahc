@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+	Error!
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Error!</h1>
+		{% for i in message %}
+			<div class="alert alert-danger fade in">
+				<strong>Error! </strong>{{ i }}
+			</div>	
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -4,9 +4,11 @@
 <head>
 	<title>{% block title %} {% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="{% static "myapp/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "myapp/css/bootstrap-select.min.css" %}">
 	<link rel="stylesheet" type="text/css" href="{% static "myapp/css/style.css" %}">
 	<script src="{% static "myapp/js/jquery.min.js" %}"></script>
 	<script src="{% static "myapp/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "myapp/js/bootstrap-select.min.js" %}"></script>
 	<script src="{% static "myapp/js/script.js" %}"></script>
 </head>
 <body>
@@ -20,6 +22,7 @@
 				</button>
 				<a class="navbar-brand" href="/">SMAHC</a>
 			</div>
+			{% if user.is_authenticated %}
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
@@ -31,6 +34,7 @@
 					<li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 				</ul>
 			</div>
+			{% endif %}
 		</div>
 	</nav>
 	{% block content %}

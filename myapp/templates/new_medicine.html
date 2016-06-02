@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+	Add New Medicine
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Add a New Medicine</h1>
+		<br>
+		<div class="col-md-4 col-md-offset-4">
+			<form role="form" action="/new_medicine" method="POST">
+				{% csrf_token %}
+				<div class="form-group">
+					<label>Medicine Name:</label>
+					<input type="text" class="form-control" name="medicine_name">
+				</div>
+				<div class="form-group">
+					<label>Initial Quantity:</label>
+					<input type="text" class="form-control" name="medicine_initial_quantity" value="0">
+				</div>
+				<div class="form-group">
+					<label>Critical Quantity:</label>
+					<input type="text" class="form-control" name="medicine_critical_quantity" value="10">
+				</div>
+				<div class="form-group" align="right">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
