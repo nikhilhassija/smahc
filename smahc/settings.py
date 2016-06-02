@@ -25,7 +25,7 @@ SECRET_KEY = '(k=@i*u(t32v(6bowf_7wdm3x*e3n(v$eju@y)@&9kw-22h6mo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -121,5 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'blog/static'),
+    os.path.join(BASE_DIR, 'myapp/static'),
+    '/home/nikhil/Desktop/smahc/smahc/myapp/static'
 )

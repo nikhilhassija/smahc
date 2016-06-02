@@ -24,6 +24,9 @@ def index(request):
 	return render(request,'index.html',context)
 
 def login_view(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/")		
+	
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
@@ -31,6 +34,7 @@ def login_view(request):
 		if user is not None:
 			login(request,user)
 			return HttpResponseRedirect("/")		
+		
 	return render(request,'login.html')
 
 def logout_view(request):
