@@ -1,0 +1,9 @@
+.table td, .table th
+{
+	text-align: center;
+}
+
+.clickable-row
+{
+	cursor: pointer;
+}
