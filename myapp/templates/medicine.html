@@ -26,10 +26,14 @@
 							<td><strong>Critical Quantity</strong></td>
 							<td>{{ medicine.critical_quantity }}</td>
 						</tr>
+						<tr>
+							<td><strong>Monthly Usage</strong></td>
+							<td>{{ medicine.monthly_usage }}</td>
+						</tr>
 					</tbody>
 				</table>
-				<div class="col-md-5 col-md-offset-7">
-					<a href="change_critical_quantity/{{ medicine.id }}" class="btn btn-primary center-block">Change Critical Quantity</a>
+				<div class="col-md-3 col-md-offset-9">
+					<a href="edit_medicine/{{ medicine.id }}" class="btn btn-primary center-block">Edit</a>
 				</div>
 			</div>
 		</div>
@@ -45,8 +49,8 @@
 					<th>Quantity</th>
 				</thead>
 				<tbody>
-					{% for d,a,s,q in logs %}
-						<tr>
+					{% for t,d,a,s,q in logs %}
+						<tr class="{{ t }}">
 							<td>{{ d }}</td>
 							<td>{{ a }}</td>
 							<td>{{ s }}</td>

@@ -144,14 +144,15 @@ def new_medicine(request):
 		return HttpResponseRedirect("success") 
 	return render(request,'new_medicine.html')
 
-def change_critical_quantity(request,medicine_id):
+def edit_medicine(request,medicine_id):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		m = Medicine.objects.get(pk=medicine_id)
 		m.critical_quantity = request.POST['new_critical_quantity']
+		m.monthly_usage = request.POST['new_monthly_usage']
 		m.save()
-		return HttpResponseRedirect('view_medicine/{}'.format(medicine_id))
+		return HttpResponseRedirect('/medicine/{}'.format(medicine_id))
 	m = Medicine.objects.get(pk=medicine_id)
 	context = {'medicine':m}
 	return render(request,'change.html',context)
@@ -165,6 +166,7 @@ def view_medicine(request,medicine_id):
 	l_add = []
 	l_sub = []
 	l_qnt = []
+	l_tag = []
 	q = m.quantity
 	for i in l:
 		if i.quantity_change != 0:
@@ -172,8 +174,33 @@ def view_medicine(request,medicine_id):
 			l_add.append(max(0,i.quantity_change))
 			l_sub.append(-min(0,i.quantity_change))
 			l_qnt.append(q)
+			if i.quantity_change < 0:
+				l_tag.append("danger")
+			else:
+				l_tag.append("success")
 			q -= i.quantity_change
 
-	l = list(zip(ldate,l_add,l_sub,l_qnt))
+	l = list(zip(l_tag,ldate,l_add,l_sub,l_qnt))
 	context = {'medicine':m, 'logs':l}
 	return render(request,'medicine.html',context)
+
+def restock(request):
+	tags = []
+	m = sorted(Medicine.objects.all(), key=lambda x:x.name)
+	need = []
+	n = 0
+
+	for i in m:
+		if i.quantity < i.monthly_usage:
+			tags.append("danger")
+			need.append(i.monthly_usage-i.quantity)
+			n += 1
+		else:
+			tags.append("")
+			need.append(0)
+
+	m = zip(tags,m,need)
+
+	context = {'medicines':m, 'num':n}
+
+	return render(request,'restock.html',context)

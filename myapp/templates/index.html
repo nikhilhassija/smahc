@@ -16,6 +16,11 @@
 		<br>
 		<h1 align="center">Notifications</h1>
 		<br>
+		{% if date.day > 10 %}
+			<div class="alert alert-info fade in clickable-row" data-href="restock">
+				<strong>Info!</strong> Month end approaching. Restock the inventory for next month!
+			</div>
+		{% endif %}
 		{% if medicines %}
 			{% for name,quantity in medicines %}
 				<div class="alert alert-danger fade in">

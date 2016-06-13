@@ -5,6 +5,7 @@ class Medicine(models.Model):
 	name = models.CharField(max_length=200)
 	quantity = models.IntegerField(default=0)
 	critical_quantity = models.IntegerField(default=10)
+	monthly_usage = models.IntegerField(default=1000)
 
 	def __str__(self):
 		return self.name

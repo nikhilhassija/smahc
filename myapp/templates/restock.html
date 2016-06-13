@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+	Home
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">{{ num }} Medicine(s) need to be restocked</h1>
+	
+		<div class="col-md-10 col-md-offset-1">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<th>Medicine</th>
+					<th>Current Quatity</th>
+					<th>Monthly Usage</th>
+					<th>Refill Needed</th>
+				</thead>
+				{% for t,m,n in medicines %}
+					<tr class="clickable-row {{ t }}" data-href="medicine/{{ m.id }}">
+						<td>{{ m.name }}</td>
+						<td>{{ m.quantity }}</td>
+						<td>{{ m.monthly_usage }}</td>
+						<td>{{ n }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+{% endblock %}
