@@ -20,7 +20,7 @@ def index(request):
 			mname.append(i.name)
 			mqty.append(i.quantity)
 	mzip = list(zip(mname,mqty))
-	context = {'medicines':mzip}
+	context = {'medicines':mzip, 'date':timezone.now().date()}
 	return render(request,'index.html',context)
 
 def login_view(request):
