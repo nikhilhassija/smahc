@@ -13,13 +13,16 @@ def index(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect("login")
 	m = sorted(Medicine.objects.all(), key=lambda x: x.name)
-	mname = []
+	mid  = []
 	mqty  = []
+	mname = []
 	for i in m:
 		if i.quantity <= i.critical_quantity:
+			mid.append(i.id)
 			mname.append(i.name)
 			mqty.append(i.quantity)
-	mzip = list(zip(mname,mqty))
+	
+	mzip = list(zip(mid,mname,mqty))
 	context = {'medicines':mzip, 'date':timezone.now().date()}
 	return render(request,'index.html',context)
 

@@ -22,8 +22,8 @@
 			</div>
 		{% endif %}
 		{% if medicines %}
-			{% for name,quantity in medicines %}
-				<div class="alert alert-danger fade in">
+			{% for id,name,quantity in medicines %}
+				<div class="alert alert-danger fade in clickable-row" data-href="medicine/{{ id }}">
 					<!-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> -->
 					<strong>Warning!</strong> {{ name }} is running low. Current quantity: {{ quantity }}
 				</div>
