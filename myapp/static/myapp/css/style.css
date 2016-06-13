@@ -7,3 +7,14 @@
 {
 	cursor: pointer;
 }
+
+.navbar-brand
+{
+	margin-left: 0 !important;
+	padding: 0;
+}
+
+.navbar-brand > img
+{
+	height: inherit;
+}

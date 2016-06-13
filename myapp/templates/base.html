@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/bootstrap.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/bootstrap-select.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/style.css' %}">
+	<link rel="shortcut icon" type="image/x-icon" href="{% static 'myapp/images/favicon.ico' %}"/>
 	<script src="{% static "myapp/js/jquery.min.js" %}"></script>
 	<script src="{% static "myapp/js/bootstrap.min.js" %}"></script>
 	<script src="{% static "myapp/js/bootstrap-select.min.js" %}"></script>
@@ -20,7 +21,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span> 
 				</button>
-				<a class="navbar-brand" href="/">SMAHC</a>
+				<a class="navbar-brand" href="/"><img src="{% static 'myapp/images/logo.png' %}"></a>
 			</div>
 			{% if user.is_authenticated %}
 			<div class="collapse navbar-collapse" id="myNavbar">
