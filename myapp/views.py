@@ -162,19 +162,18 @@ def view_medicine(request,medicine_id):
 	m = Medicine.objects.get(pk=medicine_id)
 	l = sorted(m.log_set.all(), key=lambda x: x.date, reverse=True)
 	ldate = []
-	ltype = []
-	ldelt = []
-
+	l_add = []
+	l_sub = []
+	l_qnt = []
+	q = m.quantity
 	for i in l:
 		if i.quantity_change != 0:
 			ldate.append(i.date.date())
-			if(i.quantity_change < 0):
-				ltype.append("Issued")
-				ldelt.append(-i.quantity_change)
-			else:
-				ltype.append("Added")
-				ldelt.append(i.quantity_change)
+			l_add.append(max(0,i.quantity_change))
+			l_sub.append(-min(0,i.quantity_change))
+			l_qnt.append(q)
+			q -= i.quantity_change
 
-	l = list(zip(ldate,ltype,ldelt))
+	l = list(zip(ldate,l_add,l_sub,l_qnt))
 	context = {'medicine':m, 'logs':l}
 	return render(request,'medicine.html',context)

@@ -40,14 +40,16 @@
 			<table class="table table-bordered table-hover">
 				<thead>
 					<th>Date</th>
-					<th>Operation</th>
+					<th>Added</th>
+					<th>Issued</th>
 					<th>Quantity</th>
 				</thead>
 				<tbody>
-					{% for d,t,q in logs %}
+					{% for d,a,s,q in logs %}
 						<tr>
 							<td>{{ d }}</td>
-							<td>{{ t }}</td>
+							<td>{{ a }}</td>
+							<td>{{ s }}</td>
 							<td>{{ q }}</td>
 						</tr>
 					{% endfor %}

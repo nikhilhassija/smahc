@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -14,4 +16,4 @@ urlpatterns = [
 	url(r'new_medicine',views.new_medicine,name='new_med'),
 	url(r'medicine/(?P<medicine_id>[0-9]+)',views.view_medicine,name='view_medicine'),	
 	url(r'change_critical_quantity/(?P<medicine_id>[0-9]+)',views.change_critical_quantity,name='change_critical_quantity'),	
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
