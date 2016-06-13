@@ -14,12 +14,20 @@
 					<th>Monthly Usage</th>
 					<th>Refill Needed</th>
 				</thead>
-				{% for t,m,n in medicines %}
-					<tr class="clickable-row {{ t }}" data-href="medicine/{{ m.id }}">
-						<td>{{ m.name }}</td>
-						<td>{{ m.quantity }}</td>
-						<td>{{ m.monthly_usage }}</td>
-						<td>{{ n }}</td>
+				{% for m,n in ma %}
+					<tr class="clickable-row danger" data-href="medicine/{{ m.id }}">
+							<td>{{ m.name }}</td>
+							<td>{{ m.quantity }}</td>
+							<td>{{ m.monthly_usage }}</td>
+							<td>{{ n }}</td>
+					</tr>
+				{% endfor %}
+				{% for m in mb %}
+					<tr class="clickable-row" data-href="medicine/{{ m.id }}">
+							<td>{{ m.name }}</td>
+							<td>{{ m.quantity }}</td>
+							<td>{{ m.monthly_usage }}</td>
+							<td>0</td>
 					</tr>
 				{% endfor %}
 			</table>

@@ -22,7 +22,7 @@ def index(request):
 			mname.append(i.name)
 			mqty.append(i.quantity)
 	
-	mzip = list(zip(mid,mname,mqty))
+	mzip = zip(mid,mname,mqty)
 	context = {'medicines':mzip, 'date':timezone.now().date()}
 	return render(request,'index.html',context)
 
@@ -183,27 +183,29 @@ def view_medicine(request,medicine_id):
 				l_tag.append("success")
 			q -= i.quantity_change
 
-	l = list(zip(l_tag,ldate,l_add,l_sub,l_qnt))
+	l = zip(l_tag,ldate,l_add,l_sub,l_qnt)
 	context = {'medicine':m, 'logs':l}
 	return render(request,'medicine.html',context)
 
 def restock(request):
-	tags = []
 	m = sorted(Medicine.objects.all(), key=lambda x:x.name)
-	need = []
 	n = 0
+
+	ma = []
+	na = []
+
+	mb = []
 
 	for i in m:
 		if i.quantity < i.monthly_usage:
-			tags.append("danger")
-			need.append(i.monthly_usage-i.quantity)
+			ma.append(i)
+			na.append(i.monthly_usage - i.quantity)
 			n += 1
 		else:
-			tags.append("")
-			need.append(0)
+			mb.append(i)
 
-	m = zip(tags,m,need)
+	ma = zip(ma,na)
 
-	context = {'medicines':m, 'num':n}
+	context = {'ma':ma, 'mb':mb, 'num':n}
 
 	return render(request,'restock.html',context)
