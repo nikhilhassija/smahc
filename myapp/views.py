@@ -130,6 +130,7 @@ def new_medicine(request):
 		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		mname = request.POST['medicine_name']
+		mous = int(request.POST['medicine_monthly_usage'])
 		mcrit = int(request.POST['medicine_critical_quantity'])
 		minit = int(request.POST['medicine_initial_quantity'])
 		m = Medicine.objects.all()
@@ -139,7 +140,7 @@ def new_medicine(request):
 				err_mes = []
 				err_mes.append("{} already exists!".format(mname))
 				return HttpResponseRedirect("error")
-		m = Medicine(name=mname,critical_quantity=mcrit,quantity=minit)
+		m = Medicine(name=mname,monthly_usage=mous,critical_quantity=mcrit,quantity=minit)
 		m.save()
 		global message
 		message = []
