@@ -3,15 +3,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Medicine, Log
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 message = []
 err_mes = []
 
+@login_required(login_url="/login/")
 def index(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	m = sorted(Medicine.objects.all(), key=lambda x: x.name)
 	mid  = []
 	mqty  = []
@@ -27,8 +27,6 @@ def index(request):
 	return render(request,'index.html',context)
 
 def login_view(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect("/")		
 	
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -40,13 +38,13 @@ def login_view(request):
 		
 	return render(request,'login.html')
 
+@login_required(login_url="/login/")
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect("login")
 
+@login_required(login_url="/login/")
 def add(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		global message
 		message = []
@@ -68,25 +66,22 @@ def add(request):
 	context = {'medicines':m, 'range':[0]*1000}
 	return render(request,'add.html',context)
 
+@login_required(login_url="/login/")
 def success(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	global message
 	context = {'message':message}
 	message = []
 	return render(request,'success.html',context)
 
+@login_required(login_url="/login/")
 def error(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	global err_mes
 	context = {'message':err_mes}
 	err_mes = []
 	return render(request,'error.html',context)
 
+@login_required(login_url="/login/")
 def issue(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		global message
 		global err_mes
@@ -118,16 +113,14 @@ def issue(request):
 	context = {'medicines':m, 'range':[0]*1000}
 	return render(request,'issue.html',context)
 
+@login_required(login_url="/login/")
 def inventory(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	m = sorted(Medicine.objects.all(), key=lambda x: x.name)
 	context = {'medicines':m}
 	return render(request,'inventory.html',context)
 
+@login_required(login_url="/login/")
 def new_medicine(request):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		mname = request.POST['medicine_name']
 		mous = int(request.POST['medicine_monthly_usage'])
@@ -148,9 +141,8 @@ def new_medicine(request):
 		return HttpResponseRedirect("success") 
 	return render(request,'new_medicine.html')
 
+@login_required(login_url="/login/")
 def edit_medicine(request,medicine_id):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	if request.method == 'POST':
 		m = Medicine.objects.get(pk=medicine_id)
 		m.critical_quantity = request.POST['new_critical_quantity']
@@ -161,9 +153,8 @@ def edit_medicine(request,medicine_id):
 	context = {'medicine':m}
 	return render(request,'change.html',context)
 
+@login_required(login_url="/login/")
 def view_medicine(request,medicine_id):
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("login")
 	m = Medicine.objects.get(pk=medicine_id)
 	l = sorted(m.log_set.all(), key=lambda x: x.date, reverse=True)
 	ldate = []
@@ -188,6 +179,8 @@ def view_medicine(request,medicine_id):
 	context = {'medicine':m, 'logs':l}
 	return render(request,'medicine.html',context)
 
+
+@login_required(login_url="/login/")
 def restock(request):
 	m = sorted(Medicine.objects.all(), key=lambda x:x.name)
 	n = 0
