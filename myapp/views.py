@@ -51,7 +51,7 @@ def add(request):
 		s = request.POST['str']
 		s = s.split('|')
 		s = s[:-1]
-		s.append("{},{}".format(request.POST['quantity1'],request.POST['medicine1']))
+		# s.append("{},{}".format(request.POST['quantity1'],request.POST['medicine1']))
 		for i in s:
 			i = i.split(',')
 			i[0] = int(i[0])
@@ -90,7 +90,7 @@ def issue(request):
 		s = request.POST['str']
 		s = s.split('|')
 		s = s[:-1]
-		s.append("{},{}".format(request.POST['quantity1'],request.POST['medicine1']))
+		# s.append("{},{}".format(request.POST['quantity1'],request.POST['medicine1']))
 		for i in s:
 			i = i.split(',')
 			i[0] = int(i[0])
