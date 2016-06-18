@@ -233,6 +233,9 @@ def report(request,daterange=None,format=None):
 		s_int = int(sdate)
 		e_int = int(edate)
 
+		if e_int < s_int:
+			return render(request,'report.html')
+
 		mset = sorted(Medicine.objects.all(), key=lambda x:x.name)
 		uset = []
 
