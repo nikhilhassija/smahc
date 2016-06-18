@@ -234,7 +234,7 @@ def report(request,daterange=None,format=None):
 		e_int = int(edate)
 
 		if e_int < s_int:
-			return render(request,'report.html')
+			return HttpResponseRedirect("report")
 
 		mset = sorted(Medicine.objects.all(), key=lambda x:x.name)
 		uset = []
