@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}
+Report
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">Report {{d}}</h1>
+		{% if view %}
+			<h3 align="center">{{ start }} - {{ end}}</h3>
+			
+			<div class="col-md-1 col-md-offset-9">
+				<a class="btn btn-primary no-print" href="csv">Download CSV</a>
+			</div>
+			
+			<br>
+			<br>
+				
+			<div class="col-md-10 col-md-offset-1">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<th>S. No.</th>
+						<th>Medicine</th>
+						<th>Usage</th>
+					</thead>
+					<tbody>
+						{% for m,u in medicines %}
+							<tr class="clickable-row" data-href="/medicine/{{ m.id }}">
+								<td> {{ forloop.counter }} </td>
+								<td> {{ m.name }} </td>
+								<td> {{ u }} </td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% else %}
+			<div class="col-md-4 col-md-offset-4">
+				<form role="form" action="/report" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label>Start Date:</label>
+						<input type="text" name="startdate" id="startdate">
+					</div>
+					<div class="form-group">
+						<label>End Date:</label>
+						<input type="text" name="enddate" id="enddate">
+					</div>
+					<div class="form-group">
+						<label>Report Format:</label>
+						<div class="radio">
+							<label><input type="radio" name="csv" value="0" checked="checked">Printable Format</label>
+						</div>
+						<div class="radio">
+							<label><input type="radio" name="csv" value="1">CSV</label>
+						</div>
+					</div>
+					<div class="form-group" align="right">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		{% endif %}
+	</div>
+
+<script>
+	$(function()
+	{
+		$("#startdate").datepicker();
+		$("#enddate").datepicker();
+		$("#startdate").datepicker( "option", "dateFormat", "yy-mm-dd" );
+		$("#enddate").datepicker( "option", "dateFormat", "yy-mm-dd" );
+	});
+</script>
+
+{% endblock %}

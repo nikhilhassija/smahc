@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+import csv
+
 # Create your views here.
 
 message = []
@@ -145,6 +147,7 @@ def new_medicine(request):
 def edit_medicine(request,medicine_id):
 	if request.method == 'POST':
 		m = Medicine.objects.get(pk=medicine_id)
+		m.name = request.POST['new_name']
 		m.critical_quantity = request.POST['new_critical_quantity']
 		m.monthly_usage = request.POST['new_monthly_usage']
 		m.save()
@@ -203,3 +206,60 @@ def restock(request):
 	context = {'ma':ma, 'mb':mb, 'num':n}
 
 	return render(request,'restock.html',context)
+
+	
+@login_required(login_url="/login/")
+def report(request,daterange=None,format=None):
+	if request.method == 'POST':
+		d = request.POST['startdate'] + request.POST['enddate'] 
+		d = d.replace("-","")
+
+		f = int(request.POST['csv'])
+
+		if f:
+			f = "csv"
+		else:
+			f = ""	
+		if(len(d) == 16):
+			return HttpResponseRedirect("report/{}/{}".format(d,f))
+
+	if daterange and len(daterange) == 16:
+		sdate = str(daterange)[:8]
+		fsdate = "{}/{}/{}".format(sdate[-2:],sdate[-4:-2],sdate[:4])
+
+		edate = str(daterange)[8:]
+		fedate = "{}/{}/{}".format(edate[-2:],edate[-4:-2],edate[:4])
+
+		s_int = int(sdate)
+		e_int = int(edate)
+
+		mset = sorted(Medicine.objects.all(), key=lambda x:x.name)
+		uset = []
+
+		for m in mset:
+			lset = m.log_set.all()
+			u = 0
+			for l in lset:
+				d = int(l.date.date().strftime("%Y%m%d"))
+				if s_int <= d and d <= e_int:
+					u += (-min(0,l.quantity_change))
+			uset.append(u)
+
+		mset = zip(mset,uset)
+
+		if format == "csv":
+			response = HttpResponse(content_type='text/csv')
+			response['Content-Disposition'] = 'attachment; filename="report{}.csv"'.format(daterange)
+
+			writer = csv.writer(response)
+			
+			writer.writerow(["Medicine","Usage"])
+			for m,u in mset:
+				writer.writerow([m.name,u])
+
+			return response
+		else:
+			context = {'view':True, 'start':fsdate,'end':fedate,'medicines':mset,'f':format}
+			return render(request,'report.html',context)
+
+	return render(request,'report.html')
