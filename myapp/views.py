@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Medicine, Log
+from .models import Medicine, Log, GLog
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -35,6 +35,8 @@ def login_view(request):
 		password = request.POST['password']
 		user = authenticate(username=username,password=password)
 		if user is not None:
+			g = GLog(date=timezone.now(),user=user,actn="Logged In")
+			g.save()
 			login(request,user)
 			return HttpResponseRedirect("/")		
 		
@@ -42,6 +44,8 @@ def login_view(request):
 
 @login_required(login_url="/login/")
 def logout_view(request):
+	g = GLog(date=timezone.now(),user=request.user,actn="Logged Out")
+	g.save()
 	logout(request)
 	return HttpResponseRedirect("login")
 
@@ -62,6 +66,8 @@ def add(request):
 			m.log_set.create(date=timezone.now(),quantity_change=i[0])
 			m.save()
 			message.append("Added {} {}.".format(i[0],m.name))
+			g = GLog(date=timezone.now(),user=request.user,actn="Added {} {}".format(i[0],m.name))
+			g.save()
 		return HttpResponseRedirect('success')
 	
 	m = sorted(Medicine.objects.all(), key=lambda x: x.name)
@@ -109,6 +115,8 @@ def issue(request):
 			m.log_set.create(date=timezone.now(),quantity_change=-i[0])
 			m.save()
 			message.append("Issued {} {}.".format(i[0],m.name))
+			g = GLog(date=timezone.now(),user=request.user,actn="Issued {} {}".format(i[0],m.name))
+			g.save()
 		return HttpResponseRedirect('success')
 	
 	m = sorted(Medicine.objects.all(), key=lambda x: x.name)
@@ -137,6 +145,8 @@ def new_medicine(request):
 				return HttpResponseRedirect("error")
 		m = Medicine(name=mname,monthly_usage=mous,critical_quantity=mcrit,quantity=minit)
 		m.save()
+		g = GLog(date=timezone.now(),user=request.user,actn="New Med: {}".format(m.name))
+		g.save()
 		global message
 		message = []
 		message.append("Added {} to inventory".format(mname))
@@ -147,6 +157,8 @@ def new_medicine(request):
 def edit_medicine(request,medicine_id):
 	if request.method == 'POST':
 		m = Medicine.objects.get(pk=medicine_id)
+		g = GLog(date=timezone.now(),user=request.user,actn="Edited {}: {}-{}, {}-{}, {}-{}".format(m.name,m.name,request.POST['new_name'],m.critical_quantity,request.POST['new_critical_quantity'],m.monthly_usage,request.POST['new_monthly_usage']))
+		g.save()
 		m.name = request.POST['new_name']
 		m.critical_quantity = request.POST['new_critical_quantity']
 		m.monthly_usage = request.POST['new_monthly_usage']
@@ -266,3 +278,8 @@ def report(request,daterange=None,format=None):
 			return render(request,'report.html',context)
 
 	return render(request,'report.html')
+
+def god(request):
+	G = sorted(GLog.objects.all(), key=lambda x:x.date, reverse=True)
+	context = {"G":G}
+	return render(request,'god.html',context)

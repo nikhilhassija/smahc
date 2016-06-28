@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+God
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h1 align="center">God</h1>
+		<div class="col-md-8 col-md-offset-2">
+			<table class="table table-bordered table-hover">
+				<thead class="thead-inverse">
+					<th>Date</th>
+					<th>User</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					{% for g in G %}
+						<tr>
+							<td>{{ g.date }}</td>
+							<td>{{ g.user.username }}</td>
+							<td>{{ g.actn }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>	
+	</div>
+{% endblock %}

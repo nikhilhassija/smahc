@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Medicine(models.Model):
@@ -20,3 +21,11 @@ class Log(models.Model):
 			return "Issued {} {} on {}".format(-self.quantity_change,self.medicine.name,self.date)
 		else:
 			return "Added {} {} on {}".format(self.quantity_change,self.medicine.name,self.date)
+
+class GLog(models.Model):
+	user = models.ForeignKey(User)
+	date = models.DateTimeField()
+	actn = models.CharField(max_length=1000)
+
+	def __str__(self):
+		return "{} | {} | {}".format(self.date,self.user,self.actn)
