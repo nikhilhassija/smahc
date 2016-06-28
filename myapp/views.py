@@ -280,6 +280,8 @@ def report(request,daterange=None,format=None):
 	return render(request,'report.html')
 
 def god(request):
-	G = sorted(GLog.objects.all(), key=lambda x:x.date, reverse=True)
-	context = {"G":G}
-	return render(request,'god.html',context)
+	if(request.user.username in  god):
+		G = sorted(GLog.objects.all(), key=lambda x:x.date, reverse=True)
+		context = {"G":G}
+		return render(request,'god.html',context)
+	return HttpResponseRedirect("/")
