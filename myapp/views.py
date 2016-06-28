@@ -11,7 +11,6 @@ import csv
 
 message = []
 err_mes = []
-god = ["nikhil"]
 
 @login_required(login_url="/login/")
 def index(request):
@@ -281,6 +280,7 @@ def report(request,daterange=None,format=None):
 	return render(request,'report.html')
 
 def god(request):
+	god = ["nikhil"]
 	if(request.user.username in god):
 		G = sorted(GLog.objects.all(), key=lambda x:x.date, reverse=True)
 		context = {"G":G}
