@@ -5,3 +5,4 @@ from .models import Medicine, Log
 
 admin.site.register(Medicine)
 admin.site.register(Log)
+admin.site.register(GLog)
