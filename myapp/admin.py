@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Medicine, Log, Glog
+from .models import Medicine, Log, GLog
 
 # Register your models here.
 
